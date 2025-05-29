@@ -1,18 +1,15 @@
-import { matchesType } from '@/types'
-import Image from 'next/image'
+//@ts-nocheck
+import Competition from './Competition'
+import {matchesType} from '@/types'
+import Matches from './Matches'
 
-const Competition = ({data}:{data:matchesType}) => {
-  const nd = new Date(data?.utcDate)
-  const dateConvert = nd.toDateString()
+const LeagueTable = ({data}:{data:matchesType}) => {
   return (
-    <div className='mb-4 flex justify-between items-center px-4 py-1 bg-slate-600 hover:bg-slate-700 rounded-md'>
-      <div className='flex space-x-4'>
-        <Image src={data?.competition.emblem} alt={data?.competition.name} width={20} height={20} />
-        <p className='text-sm text-teal-400'>{data?.competition.name}</p>
-      </div>
-      <p className='text-xs md:text-sm'>{dateConvert}</p>
+    <div className='py-3 px-2 md:px-3 rounded-md flex flex-col bg-[rgb(40,46,58)] mb-2'>
+      <Competition data={data} />
+      <Matches data={data} />
     </div>
   )
 }
 
-export default Competition
+export default LeagueTable

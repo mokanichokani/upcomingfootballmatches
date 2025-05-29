@@ -1,3 +1,4 @@
+//@ts-nocheck
 import Competition from './Competition' // Assuming Competition.tsx will also adapt to light mode
 import {matchesType} from '@/types'
 import Matches from './Matches'

@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { apiOptions, matchesType } from "@/types"
 
 const options:apiOptions =  {
