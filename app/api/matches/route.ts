@@ -15,27 +15,15 @@ export async function GET(request: Request) {
     );
   }
 
-  const options: ApiOptions = {
-    headers: {
-      "X-Auth-Token": apiToken,
-      "Content-Type": "application/json",
-    },
-    // To ensure fresh data on each request to this backend API route:
-    // cache: 'no-store', // Or manage revalidation with 'next: { revalidate: seconds }'
-    // If you want to cache the result from football-data.org for some time:
-    // next: { revalidate: 60 } // Revalidate every 60 seconds
-  };
-
   try {
-    // Fetch upcoming matches.
-    // The default endpoint /v4/matches usually gives upcoming/recent matches.
-    // You might want to add ?status=SCHEDULED if the API tier supports it
-    // or filter by date: `${EXTERNAL_API_URL}?dateFrom=YYYY-MM-DD&dateTo=YYYY-MM-DD`
     const response = await fetch(EXTERNAL_API_URL, {
-      ...options,
-      next: { revalidate: 300 } 
+      method: "GET",
+      headers: {
+        "X-Auth-Token": apiToken!,
+        "Content-Type": "application/json",
+      },
+      cache: "no-store", // or "force-cache"
     });
-
 
     if (!response.ok) {
       const errorData = await response.json();
@@ -62,7 +50,6 @@ export async function GET(request: Request) {
     // If no specific filters applied and you want to ensure only future matches:
     const now = new Date();
     const futureMatches = upcomingMatches.filter(match => new Date(match.utcDate) > now);
-
 
     return NextResponse.json({ matches: futureMatches }); // or upcomingMatches if you don't mind very recent ones
 
